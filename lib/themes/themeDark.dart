@@ -19,10 +19,12 @@ ThemeData themes = ThemeData(
 
                 ),
                 bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+                  selectedItemColor:Colors.white ,
                   backgroundColor :Color(0xff404040),
                 ),
                 cardTheme: CardTheme(
                   color: Colors.blueGrey,
-                  shape:OutlineInputBorder(borderRadius:BorderRadius.circular(10))
+                  shape:OutlineInputBorder(borderRadius:BorderRadius.circular(10)),
+                
                 )
                   );

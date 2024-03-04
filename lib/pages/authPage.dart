@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
 
 class Authpage extends StatefulWidget {
@@ -100,7 +100,9 @@ class _AuthpageState extends State<Authpage> {
                 height: MediaQuery.of(context).size.height * 0.06,
                 width: MediaQuery.of(context).size.width * 0.55,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.popAndPushNamed(context, '/home');
+                  },
                   child: const Text('Log in'),
                 ),
               ),
