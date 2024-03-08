@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_actual_project322/pages/bottom_pages/menu.dart';
 import 'package:flutter_application_actual_project322/pages/bottom_pages/order.dart';
@@ -45,6 +47,61 @@ class _HomePageState extends State<HomePage> {
           });
         },
       ),
+    );
+  }
+}
+
+class menuPage extends StatelessWidget {
+  const menuPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child:
+      ListView(
+        children: [
+          Card(
+            child:ListTile(
+              title: const Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Блюдо'),
+                ],
+              ),
+              subtitle: const Column(
+                children: [
+                  Text('Описание'),
+                  Text('gramm'),
+                ],
+              ),
+              leading: Image.asset('images/placeholder.png'),
+            ) ,
+          )
+        ],
+
+      ),
+    );
+  }
+}
+
+class orderPage extends StatelessWidget {
+  const orderPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+
+    );
+  }
+}
+
+class profilePage extends StatelessWidget {
+  const profilePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      
     );
   }
 }
