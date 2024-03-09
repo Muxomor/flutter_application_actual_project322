@@ -29,14 +29,13 @@ class AuthService{
   }
  }
 
- Future<void> LogOut() async{
+ Future<void> logOut() async{
   return await _firebaseAuth.signOut();
  }
 
- Stream<userModel> get currentUser{
+ Stream<userModel?> get currentUser{
   return _firebaseAuth
   .authStateChanges()
-  .map((User) => user!=null?userModel.fromFirebase(user):null);
+  .map((user) => user != null ? userModel.fromFirebase(user):null);
  }
-
 }

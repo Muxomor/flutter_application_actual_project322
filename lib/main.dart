@@ -1,9 +1,9 @@
-import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_actual_project322/routes/routes.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_application_actual_project322/database/firebase_auth/service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +25,7 @@ class ThemeAppMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider.value(
       initialData: null,
-      value: Service().,
+      value: AuthService().currentUser,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData.dark(),
