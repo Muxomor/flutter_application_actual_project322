@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class Authpage extends StatefulWidget {
@@ -101,7 +100,15 @@ class _AuthpageState extends State<Authpage> {
                 width: MediaQuery.of(context).size.width * 0.55,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.popAndPushNamed(context, '/home');
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        });
+                        Future.delayed(const Duration(seconds: 5),(){Navigator.popAndPushNamed(context, '/home');});
+                        //Navigator.popAndPushNamed(context, '/home');
                   },
                   child: const Text('Log in'),
                 ),
