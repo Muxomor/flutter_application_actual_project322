@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_actual_project322/database/firebase_auth/service.dart';
 import 'package:flutter_application_actual_project322/pages/bottom_pages/menu.dart';
 import 'package:flutter_application_actual_project322/pages/bottom_pages/order.dart';
 import 'package:flutter_application_actual_project322/pages/bottom_pages/profile.dart';
@@ -11,6 +12,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  AuthService authService = AuthService();
   String title = "menu";
   int index = 0;
   final pages = [const menuPage(), const orderPage(), const profilePage()];
@@ -19,6 +21,17 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: pages.elementAt(index),
       appBar: AppBar(
+        actions: [
+          IconButton(
+              onPressed: () async {
+                await authService.logOut();
+                Navigator.popAndPushNamed(context, "/");
+              },
+              icon: const Icon(
+                Icons.logout,
+                color: Colors.white,
+              ))
+        ],
         title: Text(
           title,
           style: const TextStyle(color: Colors.white),
@@ -48,6 +61,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-
-

@@ -1,4 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_application_actual_project322/database/firebase_auth/service.dart';
+import 'package:toast/toast.dart';
 
 class Authpage extends StatefulWidget {
   const Authpage({super.key});
@@ -8,9 +13,13 @@ class Authpage extends StatefulWidget {
 }
 
 class _AuthpageState extends State<Authpage> {
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passController = TextEditingController();
+  AuthService authService = AuthService();
   bool visibility = true;
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -25,6 +34,7 @@ class _AuthpageState extends State<Authpage> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: TextField(
+                  controller: emailController,
                   cursorColor: Colors.white,
                   decoration: InputDecoration(
                     labelText: 'Email',
@@ -56,6 +66,7 @@ class _AuthpageState extends State<Authpage> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: TextField(
+                  controller: passController,
                   style: const TextStyle(color: Colors.white),
                   obscureText: visibility,
                   cursorColor: Colors.white,
@@ -99,16 +110,27 @@ class _AuthpageState extends State<Authpage> {
                 height: MediaQuery.of(context).size.height * 0.06,
                 width: MediaQuery.of(context).size.width * 0.55,
                 child: ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        });
-                        Future.delayed(const Duration(seconds: 5),(){Navigator.popAndPushNamed(context, '/home');});
-                        //Navigator.popAndPushNamed(context, '/home');
+                  onPressed: () async {
+                    if (emailController.text.isEmpty ||
+                        passController.text.isEmpty) {
+                      Toast.show("Заполните поля");
+                    } else {
+                      var user = await authService.signIn(
+                          emailController.text, passController.text);
+                      if (user != null) {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          });
+                        Toast.show('Вы успешно вошли');
+                        Navigator.popAndPushNamed(context, '/');
+                      } else {
+                        Toast.show('Неверный логин или пароль');
+                      }
+                    }
                   },
                   child: const Text('Log in'),
                 ),
