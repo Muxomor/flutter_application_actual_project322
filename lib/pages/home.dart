@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_actual_project322/database/firebase_auth/service.dart';
 import 'package:flutter_application_actual_project322/pages/bottom_pages/menu.dart';

@@ -115,20 +115,21 @@ class _AuthpageState extends State<Authpage> {
                         passController.text.isEmpty) {
                       Toast.show("Заполните поля");
                     } else {
-                      var user = await authService.signIn(
-                          emailController.text, passController.text);
-                      if (user != null) {
-                        showDialog(
+                      showDialog(
                           context: context,
                           builder: (context) {
                             return const Center(
                               child: CircularProgressIndicator(),
                             );
                           });
+                      var user = await authService.signIn(
+                          emailController.text, passController.text);
+                      if (user != null) {
                         Toast.show('Вы успешно вошли');
                         Navigator.popAndPushNamed(context, '/');
                       } else {
                         Toast.show('Неверный логин или пароль');
+                        Navigator.pop(context);
                       }
                     }
                   },
