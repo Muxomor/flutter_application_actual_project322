@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_actual_project322/database/firebase_auth/service.dart';
+import 'package:flutter_application_actual_project322/database/firebase_auth/user_collection.dart';
+import 'package:toast/toast.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -10,8 +13,16 @@ class RegistrationPage extends StatefulWidget {
 class _RegistrationPageState extends State<RegistrationPage> {
   bool visibility = true;
   bool visibility1 = true;
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController passCheckController = TextEditingController();
+  AuthService auth = AuthService();
+  UsersCollection users = UsersCollection();
   @override
   Widget build(BuildContext context) {
+    ToastContext().init(context);
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -26,6 +37,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: TextField(
+                  controller: nameController,
                   cursorColor: Colors.white,
                   decoration: InputDecoration(
                     labelText: 'Name',
@@ -57,6 +69,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: TextField(
+                  controller: phoneController,
                   cursorColor: Colors.white,
                   decoration: InputDecoration(
                     labelText: 'Номер телефона',
@@ -88,6 +101,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: TextField(
+                  controller: emailController,
                   cursorColor: Colors.white,
                   decoration: InputDecoration(
                     labelText: 'Email',
@@ -120,6 +134,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: TextField(
                   obscureText: visibility,
+                  controller: passwordController,
                   cursorColor: Colors.white,
                   decoration: InputDecoration(
                     labelText: 'Password',
@@ -160,6 +175,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.9,
                 child: TextField(
+                  controller: passCheckController,
                   obscureText: visibility1,
                   cursorColor: Colors.white,
                   decoration: InputDecoration(
@@ -202,7 +218,31 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 height: MediaQuery.of(context).size.height * 0.06,
                 width: MediaQuery.of(context).size.width * 0.55,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    if (nameController.text.isEmpty ||
+                        emailController.text.isEmpty ||
+                        phoneController.text.isEmpty ||
+                        passwordController.text.isEmpty ||
+                        passCheckController.text.isEmpty) {
+                      Toast.show('Заполните поля');
+                    } else {
+                      if (passCheckController.text == passwordController.text) {
+                        var usersVar = await auth.signIn(                               
+                            emailController.text, passwordController.text);
+                        if (usersVar != null) {
+                          await users.addUserCollection(
+                              usersVar.id!,
+                              emailController.text,
+                              nameController.text,
+                              passwordController.text);
+                        } else {
+                          Toast.show('Проверьте правильность данных');
+                        }
+                      } else {
+                        Toast.show('Пароли не совпадают');
+                      }
+                    }
+                  },
                   child: const Text('Sign In'),
                 ),
               ),
