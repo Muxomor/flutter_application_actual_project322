@@ -7,7 +7,7 @@ class UsersCollection {
     String id,
     String email,
     String name,
-    
+    String phone,
     String password,
   ) async {
     try {
@@ -15,7 +15,7 @@ class UsersCollection {
         'uid': id,
         'email': email,
         'name': name,
-        
+        'phone': phone,
         'password': password,
       });
     } catch (e) {

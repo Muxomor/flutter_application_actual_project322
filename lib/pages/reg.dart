@@ -227,14 +227,16 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       Toast.show('Заполните поля');
                     } else {
                       if (passCheckController.text == passwordController.text) {
-                        var usersVar = await auth.signIn(                               
+                        var usersVar = await auth.signUp(                               
                             emailController.text, passwordController.text);
                         if (usersVar != null) {
                           await users.addUserCollection(
                               usersVar.id!,
                               emailController.text,
                               nameController.text,
+                              phoneController.text,
                               passwordController.text);
+                              Navigator.popAndPushNamed(context, '/auth');
                         } else {
                           Toast.show('Проверьте правильность данных');
                         }
