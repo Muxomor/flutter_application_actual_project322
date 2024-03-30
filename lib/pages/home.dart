@@ -6,6 +6,8 @@ import 'package:flutter_application_actual_project322/pages/bottom_pages/menu.da
 import 'package:flutter_application_actual_project322/pages/bottom_pages/order.dart';
 import 'package:flutter_application_actual_project322/pages/bottom_pages/profile.dart';
 
+TextEditingController searchController = TextEditingController();
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -21,7 +23,6 @@ class _HomePageState extends State<HomePage> {
 
   bool search = false;
 
-  TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     AppBar appBar = AppBar(
@@ -57,12 +58,23 @@ class _HomePageState extends State<HomePage> {
         Icons.search,
         color: (Colors.white),
       ),
-      title: const TextField(),
+      title: TextField(
+        controller: searchController,
+        onChanged: (value) => {
+          setState(() {
+            value = searchController.text;
+          })
+        },
+      ),
       actions: [
+        IconButton(onPressed: (){
+          
+        }, icon: const Icon(Icons.refresh)),
         IconButton(
             onPressed: () {
               setState(() {
                 search = false;
+                searchController.clear();
               });
             },
             icon: const Icon(Icons.cancel))
@@ -96,3 +108,4 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
