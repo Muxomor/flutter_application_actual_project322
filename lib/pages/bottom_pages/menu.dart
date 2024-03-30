@@ -22,28 +22,31 @@ class MenuPage extends StatefulWidget {
 
 class _menuPageState extends State<MenuPage> {
   Widget cardFood(BuildContext context, dynamic docs) {
-    return ListView(children: [
-          Card(
-    child: ListTile(
-      title: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(docs['name']),
-        ],
-      ),
-      subtitle: Column(
-        children: [
-          Text(docs['composition'].toString()),
-          Text(docs['weight'].toString() ),
-          Text(docs['price'].toString())
-        ],
-      ),
-      leading: Image.network(docs['image']),
-      trailing: ElevatedButton(
-          onPressed: () {}, child: const Icon(Icons.add_shopping_cart)),
-    ),
-          )
-        ]);
+    return SizedBox(
+      height: 100,
+      child: ListView(children: [
+        Card(
+          child: ListTile(
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(docs['name']),
+              ],
+            ),
+            subtitle: Column(
+              children: [
+                Text(docs['composition'].toString()),
+                Text(docs['weight'].toString()+' грамм.'),
+                Text(docs['price'].toString()+' rub.')
+              ],
+            ),
+            leading: Image.network(docs['image']),
+            trailing: ElevatedButton(
+                onPressed: () {}, child: const Icon(Icons.add_shopping_cart)),
+          ),
+        )
+      ]),
+    );
   }
 
   @override
@@ -57,11 +60,16 @@ class _menuPageState extends State<MenuPage> {
               child: CircularProgressIndicator(),
             );
           } else {
-            return ListView.builder(
-              itemCount: snapshot.data!.docs.length,
-              itemBuilder: ((context, index) {
-                return cardFood(context, snapshot.data!.docs[index]);
-              }),
+            return SizedBox(
+              height: 400,
+              child: ListView.builder(
+                itemCount: snapshot.data!.docs.length,
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemBuilder: ((context, index) {
+                  return cardFood(context, snapshot.data!.docs[index]);
+                }),
+              ),
             );
           }
         },
