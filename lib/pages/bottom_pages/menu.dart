@@ -53,6 +53,34 @@ class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: const Icon(
+          Icons.search,
+          color: Colors.white,
+        ),
+        title: TextField(
+          controller: searchController,
+          style: const TextStyle(color: Colors.white),
+          onChanged: (value) {
+            setState(() {
+              value = searchController.text;
+            });
+          },
+        ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                searchController.clear();
+              });
+            },
+            icon: const Icon(
+              Icons.cancel,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('foods').snapshots(),
         builder: (context, snapshot) {
