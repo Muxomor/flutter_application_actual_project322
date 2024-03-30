@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 class FoodsCollection{
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   Future<void> addFoodCollection(
-    String id,
     Image image,
     String name,
     int price,
@@ -12,12 +11,12 @@ class FoodsCollection{
     String composition
   ) async {
     try{
-      await _firebaseFirestore.collection('Foods').doc(id).set({
-        'Composition':composition,
-        'Image':image,
-        'Name':name,
-        'Price':price,
-        'Weight':weight
+      await _firebaseFirestore.collection('foods').add({
+        'composition':composition,
+        'image':image,
+        'name':name,
+        'price':price,
+        'weight':weight
       });
     }
     catch(e){
@@ -25,13 +24,14 @@ class FoodsCollection{
     }
   }
 
-  Future<void> editFoodsCollection(String id,String name, int price,int weight,String composition)async{
+  Future<void> editFoodsCollection(dynamic docs,String name, int price,int weight,String composition)async{
+    
     try{
-      await _firebaseFirestore.collection('Foods').doc(id).update({
-        'Composition':composition,
-        'Name':name,
-        'Price':price,
-        'Weight':weight
+      await _firebaseFirestore.collection('foods').doc(docs.id).update({
+        'composition':composition,
+        'name':name,
+        'price':price,
+        'weight':weight
       });
     }
     catch(e){
@@ -39,10 +39,10 @@ class FoodsCollection{
     }
   }
 
-  Future<void> deleteFoodsCollection(String id) async
+  Future<void> deleteFoodsCollection(dynamic docs,) async
   {
     try{
-      await _firebaseFirestore.collection('Foods').doc(id).delete();
+      await _firebaseFirestore.collection('foods').doc(docs.id).delete();
     } catch(e){
       return;
     }
