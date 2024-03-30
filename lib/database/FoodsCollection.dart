@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
+
 
 class FoodsCollection{
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   Future<void> addFoodCollection(
-    Image image,
+    String image,
     String name,
     int price,
     int weight,

@@ -17,28 +17,61 @@ class _HomePageState extends State<HomePage> {
   AuthService authService = AuthService();
   String title = "menu";
   int index = 0;
-  final pages = [const menuPage(), const orderPage(), const profilePage()];
+  final pages = [const MenuPage(), const orderPage(), const profilePage()];
+
+  bool search = false;
+
+  TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    AppBar appBar = AppBar(
+      actions: [
+        IconButton(
+            onPressed: () async {
+              setState(() {
+                search = true;
+              });
+            },
+            icon: const Icon(
+              Icons.search,
+              color: Colors.white,
+            )),
+        IconButton(
+          onPressed: () async {
+            await authService.logOut();
+            Navigator.popAndPushNamed(context, "/");
+          },
+          icon: const Icon(
+            Icons.logout,
+            color: Colors.white,
+          ),
+        ),
+      ],
+      title: Text(
+        title,
+        style: const TextStyle(color: Colors.white),
+      ),
+    );
+    AppBar searchBar = AppBar(
+      leading: const Icon(
+        Icons.search,
+        color: (Colors.white),
+      ),
+      title: const TextField(),
+      actions: [
+        IconButton(
+            onPressed: () {
+              setState(() {
+                search = false;
+              });
+            },
+            icon: const Icon(Icons.cancel))
+      ],
+    );
+
     return Scaffold(
       body: pages.elementAt(index),
-      appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () async {
-                await authService.logOut();
-                Navigator.popAndPushNamed(context, "/");
-              },
-              icon: const Icon(
-                Icons.logout,
-                color: Colors.white,
-              ))
-        ],
-        title: Text(
-          title,
-          style: const TextStyle(color: Colors.white),
-        ),
-      ),
+      appBar: search ? searchBar : appBar,
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.menu_book), label: 'menu'),
