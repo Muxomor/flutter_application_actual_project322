@@ -5,6 +5,7 @@ class UsersCollection {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   Future<void> addUserCollection(
     String id,
+    String image,
     String email,
     String name,
     String phone,
@@ -13,6 +14,7 @@ class UsersCollection {
     try {
       await _firebaseFirestore.collection('users').doc(id).set({
         'uid': id,
+        'image':image,
         'email': email,
         'name': name,
         'phone': phone,

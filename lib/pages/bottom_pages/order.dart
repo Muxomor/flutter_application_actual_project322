@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class orderPage extends StatefulWidget {
-  const orderPage({super.key});
+class OrderPage extends StatefulWidget {
+  const OrderPage({super.key});
 
   @override
-  State<orderPage> createState() => _orderPageState();
+  State<OrderPage> createState() => _orderPageState();
 }
 
-class _orderPageState extends State<orderPage> {
+class _orderPageState extends State<OrderPage> {
   int itemQnt = 1;
   @override
   Widget build(BuildContext context) {
