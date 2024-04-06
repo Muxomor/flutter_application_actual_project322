@@ -14,8 +14,8 @@ class UsersCollection {
     try {
       await _firebaseFirestore.collection('users').doc(id).set({
         'uid': id,
-        'image':image,
         'email': email,
+        'image':image,
         'name': name,
         'phone': phone,
         'password': password,

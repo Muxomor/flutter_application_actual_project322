@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   AuthService authService = AuthService();
   String title = "menu";
   int index = 0;
-  final pages = [const MenuPage(), const orderPage(), const profilePage()];
+  final pages = [const MenuPage(), const OrderPage(), const ProfilePage()];
 
   bool search = false;
 
