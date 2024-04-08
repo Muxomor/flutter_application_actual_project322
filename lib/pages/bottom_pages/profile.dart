@@ -97,6 +97,7 @@ class ProfilePageState extends State<ProfilePage> {
                       ),
               ),
             ),
+            Spacer(),
               Text("Никнейм ${userDoc['name']}", style: const TextStyle(color: Colors.white), ),
               Text("Email ${userDoc['email']}", style: const TextStyle(color: Colors.white),),
               TextField(              
