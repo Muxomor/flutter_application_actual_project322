@@ -25,10 +25,10 @@ class UsersCollection {
     }
   }
 
-  Future<void> eidtUserCollection(String name, String image) async {
+  Future<void> eidtUserCollection(dynamic doc,String name, String image) async {
     final String user = FirebaseAuth.instance.currentUser!.uid.toString();
     try {
-      await _firebaseFirestore.collection('users').doc(user).update({
+      await _firebaseFirestore.collection('users').doc(doc.id).update({
         'name': name,
         'image': image,
       });

@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_application_actual_project322/database/ClientOrdersCollection.dart';
 import 'package:flutter_application_actual_project322/pages/home.dart';
 
 //class menuPage extends StatelessWidget {
@@ -20,7 +23,7 @@ class MenuPage extends StatefulWidget {
   @override
   State<MenuPage> createState() => _MenuPageState();
 }
-
+OrdersCollection ordersCollection = OrdersCollection();
 class _MenuPageState extends State<MenuPage> {
   Widget cardFood(BuildContext context, dynamic docs) {
     return SizedBox(
@@ -43,7 +46,13 @@ class _MenuPageState extends State<MenuPage> {
             ),
             leading: Image.network(docs['image']),
             trailing: ElevatedButton(
-                onPressed: () {}, child: const Icon(Icons.add_shopping_cart)),
+                onPressed: () async {
+                  await ordersCollection.addOrdersCollection(docs);
+                  showDialog(context: context, builder: (context)=>const AlertDialog(
+                    title:Text('Добавлен'),
+                    content: Text('Заказ добавлен'),
+                  ),);
+                }, child: const Icon(Icons.add_shopping_cart)),
           ),
         )
       ]),

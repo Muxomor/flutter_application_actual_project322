@@ -1,16 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class OrdersCollection {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-
+  final String user = FirebaseAuth.instance.currentUser!.uid.toString();
   Future<void> addOrdersCollection(
-    String userId,
-    Map<String, int> foodsId,
+    dynamic doc
   ) async {
     try {
       await _firebaseFirestore.collection('orders').add({
-        'userId': userId,
-        'foodsId': foodsId,
+        'uid': user,
+        'name': doc['name'],
+        'image': doc['image'],
+        'composition':doc['composition'],
+        'price':doc['price'],
       });
     } catch (e) {
       return;
@@ -20,12 +23,12 @@ class OrdersCollection {
   Future<void> editOrdersCollection(
     dynamic doc,
     String userId,
-    Map<String, int> foodsId,
+    dynamic food,
   ) async {
     try {
       await _firebaseFirestore.collection('orders').doc(doc.id).update({
         'userId': userId,
-        'foodsId': foodsId,
+        'food': food,
       });
     } catch (e) {
       return;

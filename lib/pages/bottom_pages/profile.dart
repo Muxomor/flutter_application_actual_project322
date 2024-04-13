@@ -5,10 +5,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application_actual_project322/database/firebase_auth/user_collection.dart';
 import 'package:flutter_application_actual_project322/database/image.dart';
 
 import 'package:image_picker/image_picker.dart';
+import 'package:toast/toast.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -47,7 +49,7 @@ class ProfilePageState extends State<ProfilePage> {
     if(_fileName != null || nameController.text != ""){
       String userName = nameController.text != "" ? nameController.text : userDoc['name'];
       String imagePath = imageStorage.urlImage != null ? imageStorage.urlImage : userDoc['image'];
-      users.eidtUserCollection(userName, imagePath);
+      users.eidtUserCollection(userDoc,userName, imagePath);
       setState(() {
         userDoc = GetUserById();
         nameController.clear();
@@ -63,6 +65,7 @@ class ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: Center(
         child: Column(
@@ -84,7 +87,7 @@ class ProfilePageState extends State<ProfilePage> {
                             ),
                           );
                           Future.delayed(const Duration(seconds: 4));
-
+                          await users.eidtUserCollection(userDoc.id,nameController.text,imageStorage.urlImage!);
                           Navigator.pop(context);
                         },
                         icon: const Icon(
