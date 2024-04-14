@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,12 +14,10 @@ class OrderPage extends StatefulWidget {
 }
 
 class _OrderPageState extends State<OrderPage> {
-OrdersCollection order = OrdersCollection();
- Widget OrderCard(BuildContext context, dynamic docs) {
-    return SizedBox(
-      height: 100,
-      child: ListView(children: [ 
-        Card(
+  OrdersCollection order = OrdersCollection();
+  Widget OrderCard(BuildContext context, dynamic docs) {
+  
+        return Card(
           child: ListTile(
             title: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -36,39 +33,39 @@ OrdersCollection order = OrdersCollection();
               ],
             ),
             leading: Image.network(docs['image']),
-            trailing: IconButton(icon: Icon(Icons.delete), onPressed: () async{},),
+            trailing: IconButton(
+              icon: Icon(Icons.delete),
+              onPressed: () async {},
+            ),
           ),
-        )
-      ]),
-    );
+        );
   }
 
-  
   final String Uid = FirebaseAuth.instance.currentUser!.uid.toString();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: 
-     StreamBuilder(
-      stream: FirebaseFirestore.instance.collection('orders').snapshots(),
-      builder: (context,snapshot){
-        if(!snapshot.hasData){
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        else{
-          var orders = snapshot.data!.docs.where((element) => element['uid']==Uid).toList();
-          return ListView.builder(
-          itemCount: orders.length,
-          itemBuilder : (context,index){
-            return OrderCard(context, orders[index]);
-          },
-          );
-        }
-      },
-     ),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('orders').snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            var orders = snapshot.data!.docs
+                .where((element) => element['uid'] == Uid)
+                .toList();
+            return ListView.builder(
+              itemCount: orders.length,
+              itemBuilder: (context, index) {
+                return OrderCard(context, orders[index]);
+              },
+            );
+          }
+        },
+      ),
       bottomSheet: Row(
         children: [
           Expanded(

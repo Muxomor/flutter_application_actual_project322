@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_application_actual_project322/database/ClientOrdersCollection.dart';
-import 'package:flutter_application_actual_project322/pages/home.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});

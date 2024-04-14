@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_actual_project322/database/firebase_auth/user_collection.dart';
 import 'package:flutter_application_actual_project322/database/image.dart';
@@ -67,8 +66,8 @@ class ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(future: GetUserById(), builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
-      if(snapshot.hasData){
+    ToastContext().init(context);
+    //return FutureBuilder(future: GetUserById(), builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot)
     return Scaffold(
       body: Center(
         child: Column(
@@ -129,20 +128,8 @@ class ProfilePageState extends State<ProfilePage> {
         ),
       ),
     );
-      }
-      else{
-        return const Scaffold(
-        body: Center(child:
-        Column(
-          children: [
-            Text("Получение даных пользователя..."),
-            CircularProgressIndicator(),
-          ],
-        ),
-         ),
-      );
-    }
-    }
-    );
+      
+  
+
   }
 }
