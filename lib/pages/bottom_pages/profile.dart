@@ -67,6 +67,8 @@ class ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(future: GetUserById(), builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
+      if(snapshot.hasData){
     return Scaffold(
       body: Center(
         child: Column(
@@ -102,7 +104,6 @@ class ProfilePageState extends State<ProfilePage> {
                       ),
               ),
             ),
-            Spacer(),
             Text(
               "Никнейм ${userDoc['name']}",
               style: const TextStyle(color: Colors.white),
@@ -122,26 +123,26 @@ class ProfilePageState extends State<ProfilePage> {
               ),
             ),
             OutlinedButton(
-                onPressed: () async {
-                  showDialog(
-                    context: context,
-                    builder: (context) => const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                  await imageStorage.pushImage(_fileName!);
-
-                  Future.delayed(const Duration(seconds: 4));
-
-                  await users.eidtUserCollection(userDoc['uid'], nameController.text, imageStorage.urlImage!);
-
-                  Navigator.pop(context);
-                  Toast.show('Успеховый');
-                },
+                onPressed: UpdateInfo(),
                 child: const Text("Изменить"))
           ],
         ),
       ),
+    );
+      }
+      else{
+        return const Scaffold(
+        body: Center(child:
+        Column(
+          children: [
+            Text("Получение даных пользователя..."),
+            CircularProgressIndicator(),
+          ],
+        ),
+         ),
+      );
+    }
+    }
     );
   }
 }

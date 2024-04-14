@@ -1,21 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_application_actual_project322/database/ClientOrdersCollection.dart';
 import 'package:flutter_application_actual_project322/pages/home.dart';
-
-//class menuPage extends StatelessWidget {
-//  const menuPage({super.key});
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    return const Scaffold(
-//      body: Text('menu'),
-//    );
-//  }
-//}
-//
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
@@ -23,39 +12,48 @@ class MenuPage extends StatefulWidget {
   @override
   State<MenuPage> createState() => _MenuPageState();
 }
-OrdersCollection ordersCollection = OrdersCollection();
+
+TextEditingController searchController = TextEditingController();
+final OrdersCollection orders = OrdersCollection();
+final uid = FirebaseAuth.instance.currentUser!.uid;
+
 class _MenuPageState extends State<MenuPage> {
   Widget cardFood(BuildContext context, dynamic docs) {
-    return SizedBox(
-      height: 100,
-      child: ListView(children: [ 
-        Card(
-          child: ListTile(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(docs['name']),
-              ],
-            ),
-            subtitle: Column(
-              children: [
-                Text(docs['composition'].toString()),
-                Text(docs['weight'].toString() + ' грамм.'),
-                Text(docs['price'].toString() + ' rub.')
-              ],
-            ),
-            leading: Image.network(docs['image']),
-            trailing: ElevatedButton(
-                onPressed: () async {
-                  await ordersCollection.addOrdersCollection(docs);
-                  showDialog(context: context, builder: (context)=>const AlertDialog(
-                    title:Text('Добавлен'),
-                    content: Text('Заказ добавлен'),
-                  ),);
-                }, child: const Icon(Icons.add_shopping_cart)),
-          ),
-        )
-      ]),
+    return Card(
+      child: ListTile(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(docs['name']),
+          ],
+        ),
+        subtitle: Column(
+          children: [
+            Text(docs['composition'].toString()),
+            Text('${docs['weight']} грамм.'),
+            Text('${docs['price']} rub.')
+          ],
+        ),
+        leading: Image.network(docs['image']),
+        trailing: ElevatedButton(
+            onPressed: () async {
+              await FirebaseFirestore.instance
+                  .collection('orders')
+                  .get()
+                  .then((value) async {
+                await orders.addOrdersCollection(docs);
+              });
+              //await orders.addOrdersCollection(docs);
+              showDialog(
+                context: context,
+                builder: (context) => const AlertDialog(
+                  title: Text('Добавлен'),
+                  content: Text('Заказ добавлен'),
+                ),
+              );
+            },
+            child: const Icon(Icons.add_shopping_cart)),
+      ),
     );
   }
 
@@ -99,22 +97,17 @@ class _MenuPageState extends State<MenuPage> {
             );
           } else {
             var food = snapshot.data!.docs
-                .where((element) => element['name']
+                .where((food) => food['name']
                         .toLowerCase()
                         .contains(searchController.text.toLowerCase())
                     ? true
                     : false)
                 .toList();
-            return SizedBox(
-              height: 400,
-              child: ListView.builder(
-                itemCount: food.length,
-                scrollDirection: Axis.vertical,
-                shrinkWrap: true,
-                itemBuilder: ((context, index) {
-                  return cardFood(context, food[index]);
-                }),
-              ),
+            return ListView.builder(
+              itemCount: food.length,
+              itemBuilder: ((context, index) {
+                return cardFood(context, food[index]);
+              }),
             );
           }
         },
